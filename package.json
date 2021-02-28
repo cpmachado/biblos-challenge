@@ -1,17 +1,23 @@
 {
-  "name": "ex-1",
+  "name": "byblos-lite",
   "version": "1.0.0",
-  "description": "",
+  "description": "byblos-lite is a simple REST API",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint . --fix",
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Carlos Pinto Machado <cpmachado@protonmail.com>",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.21.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.7"
   }
 }
