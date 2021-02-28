@@ -28,7 +28,7 @@ function errorHandlingMiddleware(err, _req, res, next) {
   let { message } = err;
   let { status } = err;
   logger.error(message);
-  if (status) {
+  if (!status) {
     status = StatusCodes.INTERNAL_SERVER_ERROR;
     message = ReasonPhrases.INTERNAL_SERVER_ERROR;
   }
