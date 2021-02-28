@@ -1,16 +1,16 @@
 const { StatusCodes } = require('http-status-codes');
 const express = require('express');
 const Joi = require('joi');
-const CreateAuthorDto = require('./dto/create-author.dto');
-const authorsService = require('./authors.service');
-const articlesService = require('../articles/articles.service');
-const UpdateAuthorDto = require('./dto/update-author.dto');
+const CreateArticleDto = require('./dto/create-article.dto');
+const articlesService = require('./articles.service');
+const authorsService = require('../authors/authors.service');
+const UpdateArticleDto = require('./dto/update-article.dto');
 const PaginationService = require('../common/paginationservice');
 
 const router = express.Router();
 const paginationService = new PaginationService([
   { name: 'id', type: 'number' },
-  { name: 'name', type: 'string' },
+  { name: 'title', type: 'string' },
 ]);
 
 router.get('/', (req, _res, next) => {
@@ -27,21 +27,11 @@ router.get('/', (req, _res, next) => {
   next();
 }, (req, res) => {
   const { paginate } = req;
-  let authors = authorsService
-    .findAll()
-    .map((author) => author.getWithCountry())
-    .map((author) => {
-      const { id } = author;
-      const articles = articlesService.findAllByAuthorId(id);
-      return {
-        ...author,
-        articles,
-      };
-    });
-  authors = paginationService.paginate(authors, paginate);
+  let articles = articlesService.findAll();
+  articles = paginationService.paginate(articles, paginate);
   res.status(StatusCodes.OK).json({
     status: StatusCodes.OK,
-    authors,
+    articles,
   });
 });
 
@@ -56,41 +46,40 @@ router.get('/:id', (req, res, next) => {
     next(err);
     return;
   }
-  let author = authorsService.findById(+id);
+  const article = articlesService.findById(+id);
 
-  if (!author) {
-    const err = new Error('Author not found');
+  if (!article) {
+    const err = new Error('Article not found');
     err.status = StatusCodes.NOT_FOUND;
     next(err);
     return;
   }
 
-  author = author.getWithCountry();
-
   res.status(StatusCodes.OK).json({
     status: StatusCodes.OK,
-    author,
+    article,
   });
 });
 
 router.post('/', (req, res, next) => {
   const { body } = req;
-  const createAuthorDto = CreateAuthorDto.validate(body);
+  const { error, value } = CreateArticleDto.validate(body);
 
-  if (createAuthorDto.error) {
-    const err = new Error(createAuthorDto.error);
+  if (error) {
+    const err = new Error(error);
     err.status = StatusCodes.BAD_REQUEST;
     next(err);
     return;
   }
 
-  const author = authorsService
-    .addAuthor(createAuthorDto.value)
-    .getWithCountry();
+  if (!authorsService.findById(value.authorId)) {
+    authorsService.addEmptyAuthor(value.authorId);
+  }
+  const article = articlesService.addArticle(value);
 
   res.status(StatusCodes.ACCEPTED).json({
     status: StatusCodes.ACCEPTED,
-    author,
+    article,
   });
 });
 
@@ -106,29 +95,32 @@ router.patch('/:id', (req, res, next) => {
   }
 
   const { body } = req;
-  const updateAuthor = UpdateAuthorDto.validate(body);
+  const updateArticle = UpdateArticleDto.validate(body);
 
-  if (updateAuthor.error) {
-    const err = new Error(updateAuthor.error);
+  if (updateArticle.error) {
+    const err = new Error(updateArticle.error);
     err.status = StatusCodes.BAD_REQUEST;
     next(err);
     return;
   }
 
-  let author = authorsService.updateAuthor(+id, updateAuthor.value);
+  const article = articlesService.updateArticle(+id, updateArticle.value);
 
-  if (!author) {
+  if (!article) {
     const err = new Error(`Author ${id} not found`);
     err.status = StatusCodes.NOT_FOUND;
     next(err);
     return;
   }
 
-  author = author.getWithCountry();
+  const author = authorsService.findById(article.authorId);
+  if (!author) {
+    authorsService.addEmptyAuthor(article.authorId);
+  }
 
   res.status(StatusCodes.OK).json({
     status: StatusCodes.OK,
-    author,
+    article,
   });
 });
 
@@ -143,20 +135,18 @@ router.delete('/:id', (req, res, next) => {
     return;
   }
 
-  let author = authorsService.removeById(+id);
+  const article = articlesService.removeById(+id);
 
-  if (!author) {
+  if (!article) {
     const err = new Error(`Author ${id} not found`);
     err.status = StatusCodes.NOT_FOUND;
     next(err);
     return;
   }
 
-  author = author.getWithCountry();
-
   res.status(StatusCodes.OK).json({
     status: StatusCodes.OK,
-    author,
+    article,
   });
 });
 
