@@ -4,6 +4,7 @@ const httpLogger = require('morgan');
 
 const { errorNotFoundMiddleware, errorHandlingMiddleware } = require('./util/error');
 const logger = require('./util/logger');
+const { authorsController } = require('./authors');
 
 const app = express();
 const port = 3000;
@@ -23,8 +24,11 @@ app.use(httpLogger('combined'));
 
 app.use(baseMiddlewares);
 
+// middleware
+app.use('/authors', authorsController);
+
 // error handling middleware
 app.use(errorNotFoundMiddleware);
 app.use(errorHandlingMiddleware);
 
-app.listen(port, () => logger.info(`App listening on http://127.0.0.1:${port}`));
+app.listen(port, () => logger.info(`[!!] App listening on http://127.0.0.1:${port}`));
