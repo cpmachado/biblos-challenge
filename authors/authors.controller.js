@@ -13,7 +13,7 @@ const paginationService = new PaginationService([
   { name: 'name', type: 'string' },
 ]);
 
-router.get('/', (req, res, next) => {
+router.get('/', (req, _res, next) => {
   const { query } = req;
   const { errors, value } = paginationService.validate(query);
 
