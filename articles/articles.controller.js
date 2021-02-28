@@ -63,7 +63,7 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { body } = req;
-  const { error, value} = CreateArticleDto.validate(body);
+  const { error, value } = CreateArticleDto.validate(body);
 
   if (error) {
     const err = new Error(error);
