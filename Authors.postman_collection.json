@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "5c5bef9c-17e6-4f1e-8ab5-09c0c734f470",
+		"name": "Authors",
+		"description": "Test authors endpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all authors with Country and articles",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}{{port}}/{{path}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}{{port}}"
+					],
+					"path": [
+						"{{path}}"
+					]
+				},
+				"description": "Test first endpoint\r\nShould return authors with country and articles"
+			},
+			"response": []
+		},
+		{
+			"name": "Get an author by id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}{{port}}/{{path}}/1",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}{{port}}"
+					],
+					"path": [
+						"{{path}}",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create an author",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Fernando Pessoa\",\r\n    \"countryCode\": \"PT\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}{{port}}/{{path}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}{{port}}"
+					],
+					"path": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an author",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"countryCode\": \"pt\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}{{port}}/{{path}}/1",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}{{port}}"
+					],
+					"path": [
+						"{{path}}",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an author",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{hostname}}{{port}}/{{path}}/1",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{hostname}}{{port}}"
+					],
+					"path": [
+						"{{path}}",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "protocol",
+			"value": "http"
+		},
+		{
+			"key": "hostname",
+			"value": "localhost"
+		},
+		{
+			"key": "port",
+			"value": ":3000"
+		},
+		{
+			"key": "path",
+			"value": "authors"
+		}
+	]
+}
