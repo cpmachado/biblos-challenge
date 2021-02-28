@@ -11,7 +11,7 @@ const logger = require('./logger');
  */
 function errorNotFoundMiddleware(_req, _res, next) {
   const err = new Error(ReasonPhrases.NOT_FOUND);
-  err.statusCode = StatusCodes.NOT_FOUND;
+  err.status = StatusCodes.NOT_FOUND;
   next(err);
 }
 
@@ -26,17 +26,17 @@ function errorNotFoundMiddleware(_req, _res, next) {
 // eslint-disable-next-line no-unused-vars
 function errorHandlingMiddleware(err, _req, res, next) {
   let { message } = err;
-  let { statusCode } = err;
+  let { status } = err;
   logger.error(message);
-  if (statusCode) {
-    statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+  if (status) {
+    status = StatusCodes.INTERNAL_SERVER_ERROR;
     message = ReasonPhrases.INTERNAL_SERVER_ERROR;
   }
 
-  res.status(statusCode)
+  res.status(status)
     .json({
       message,
-      statusCode,
+      status,
     });
 }
 
