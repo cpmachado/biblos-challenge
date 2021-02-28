@@ -5,6 +5,7 @@ const httpLogger = require('morgan');
 const { errorNotFoundMiddleware, errorHandlingMiddleware } = require('./util/error');
 const logger = require('./util/logger');
 const { authorsController } = require('./authors');
+const { articlesController } = require('./articles');
 
 const app = express();
 const port = 3000;
@@ -24,8 +25,9 @@ app.use(httpLogger('combined'));
 
 app.use(baseMiddlewares);
 
-// middleware
+// Controllers
 app.use('/authors', authorsController);
+app.use('/articles', articlesController);
 
 // error handling middleware
 app.use(errorNotFoundMiddleware);
