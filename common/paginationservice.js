@@ -66,25 +66,16 @@ class PaginationService {
    */
   paginate(array, paginationQueryDto) {
     const { order, sort, page } = paginationQueryDto;
-    let perPage = paginationQueryDto.per_page;
-    let n = array.length;
-    if (perPage) {
-      n = Math.ceil(array.length / perPage);
-    } else {
-      perPage = array.length;
-    }
-
-    if (page > n) {
-      return [];
-    }
+    const { perPage } = paginationQueryDto;
     const sortProp = this.props.find((prop) => prop.name === order);
     const sortFn = sortProp.type === 'number' ? sortNumeric : sortAlphabetic;
     array.sort(sortFn(sortProp.name));
     if (sort === 'desc') {
       array.reverse();
     }
-
-    return array.slice((page - 1) * perPage, perPage);
+    const firstItem = (page - 1) * perPage;
+    const endItem = firstItem + perPage;
+    return array.slice(firstItem, endItem);
   }
 }
 

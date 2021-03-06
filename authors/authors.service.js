@@ -22,7 +22,7 @@ class AuthorsService {
    * @returns {Author[]} a list of authors
    */
   findAll() {
-    return this.authors;
+    return this.authors.slice();
   }
 
   /**
