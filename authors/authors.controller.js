@@ -32,7 +32,9 @@ router.get('/', (req, _res, next) => {
     .map((author) => author.getWithCountry())
     .map((author) => {
       const { id } = author;
-      const articles = articlesService.findAllByAuthorId(id);
+      const articles = articlesService
+        .findAllByAuthorId(id)
+        .map((article) => article.withoutAuthor());
       return {
         ...author,
         articles,
