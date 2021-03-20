@@ -9,14 +9,22 @@ class Article {
    * Constructor of the Article Type
    *
    * @param {number} id article's id
-   * @param {string} name article's title
+   * @param {string} title article's title
    * @param {string} authorId author's id
    * @returns {Article} Article instance
    */
-  constructor(id, name, authorId) {
+  constructor(id, title, authorId) {
     this.id = id;
-    this.name = name;
+    this.title = title;
     this.authorId = authorId;
+  }
+
+  withoutAuthor() {
+    const { id, title } = this;
+    return {
+      id,
+      title,
+    };
   }
 }
 

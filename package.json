@@ -1,6 +1,6 @@
 {
   "name": "byblos-lite",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "byblos-lite is a simple REST API",
   "main": "index.js",
   "scripts": {
