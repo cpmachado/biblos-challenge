@@ -1,0 +1,14 @@
+#!/bin/sh
+
+
+npm run format:check
+
+if [ $? -ne 0 ];then
+	exit 1
+fi
+
+npm run lint:check
+
+if [ $? -ne 0 ];then
+	exit 1
+fi
