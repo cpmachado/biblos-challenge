@@ -1,5 +1,7 @@
 # byblos-lite
 
+[![Node.js CI](https://github.com/cpmachado/byblos-lite/actions/workflows/node.js.yml/badge.svg)](https://github.com/cpmachado/byblos-lite/actions/workflows/node.js.yml)
+
 Rewrite of a challenge proposed by some good people.
 
 It's a REST API, using [NestJs](https://nestjs.com).
